@@ -1,0 +1,277 @@
+<section class='mb-8'>
+  <div class='bg-(--panel) border border-(--border) rounded-xl px-5.5 py-4.5]'>
+    <h3
+      class='font-[JetBrains_Mono,monospace] font-bold text-[1.1rem] mb-2.5 text-(--text)'
+    >
+      La Ley de Ohm — la única fórmula que necesitas
+    </h3>
+    <p class='text-[0.92rem] text-(--text-dim) mb-2'>
+      Tiene tres variables y siempre se relacionan igual:
+    </p>
+    <div
+      class='font-[JetBrains_Mono,monospace] text-[1.1rem] font-bold text-(--accent) my-2.5'
+    >
+      V = I × R
+    </div>
+    <p class='text-[0.92rem] text-(--text-dim) mb-2'>
+      Donde <strong>V</strong> es voltios, <strong>I</strong> es amperios (o miliamperios,
+      mA) y <strong>R</strong> es ohms. El truco del triángulo: tapas la que quieres
+      calcular y te queda la operación:
+    </p>
+
+    <!-- Calculator -->
+    <div class='mt-5 bg-(--panel-2) border border-(--border) rounded-lg p-5'>
+      <!-- Mode tabs -->
+      <div class='flex gap-2 mb-5'>
+        <button
+          data-solve='V'
+          class='ohm-tab active flex-1 py-2 px-3 rounded-md text-sm font-semibold font-[JetBrains_Mono,monospace] transition-all border'
+        >
+          Tapas V
+        </button>
+        <button
+          data-solve='I'
+          class='ohm-tab flex-1 py-2 px-3 rounded-md text-sm font-semibold font-[JetBrains_Mono,monospace] transition-all border'
+        >
+          Tapas I
+        </button>
+        <button
+          data-solve='R'
+          class='ohm-tab flex-1 py-2 px-3 rounded-md text-sm font-semibold font-[JetBrains_Mono,monospace] transition-all border'
+        >
+          Tapas R
+        </button>
+      </div>
+
+      <!-- Formula display -->
+      <div
+        id='ohm-formula'
+        class='text-center font-[JetBrains_Mono,monospace] text-[0.85rem] text-(--text-dim) mb-4'
+      >
+        V = I × R
+      </div>
+
+      <!-- Inputs -->
+      <div class='grid grid-cols-2 gap-4 mb-5'>
+        <div id='input-a-group'>
+          <label
+            id='input-a-label'
+            class='block text-[0.75rem] uppercase tracking-wider text-(--text-dim) font-semibold mb-1.5'
+          >
+            Corriente (I)
+          </label>
+          <div class='flex'>
+            <input
+              id='input-a'
+              type='number'
+              step='any'
+              min='0'
+              placeholder='0'
+              class='w-full bg-(--bg) border border-(--border) rounded-l-md px-3 py-2.5 text-(--text) font-[JetBrains_Mono,monospace] text-sm focus:outline-none focus:border-(--accent) transition-colors'
+            />
+            <span
+              id='input-a-unit'
+              class='bg-(--border) text-(--text-dim) px-3 py-2.5 rounded-r-md text-sm font-[JetBrains_Mono,monospace] flex items-center'
+            >
+              A
+            </span>
+          </div>
+        </div>
+
+        <div id='input-b-group'>
+          <label
+            id='input-b-label'
+            class='block text-[0.75rem] uppercase tracking-wider text-(--text-dim) font-semibold mb-1.5'
+          >
+            Resistencia (R)
+          </label>
+          <div class='flex'>
+            <input
+              id='input-b'
+              type='number'
+              step='any'
+              min='0'
+              placeholder='0'
+              class='w-full bg-(--bg) border border-(--border) rounded-l-md px-3 py-2.5 text-(--text) font-[JetBrains_Mono,monospace] text-sm focus:outline-none focus:border-(--accent) transition-colors'
+            />
+            <span
+              id='input-b-unit'
+              class='bg-(--border) text-(--text-dim) px-3 py-2.5 rounded-r-md text-sm font-[JetBrains_Mono,monospace] flex items-center'
+            >
+              Ω
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div
+        class='bg-(--bg) border border-(--border) rounded-md p-4 text-center'
+      >
+        <div
+          class='text-[0.7rem] uppercase tracking-wider text-(--text-dim) font-semibold mb-1'
+          id='result-label'
+        >
+          Voltaje (V)
+        </div>
+        <div
+          id='ohm-result'
+          class='font-[JetBrains_Mono,monospace] text-2xl font-bold text-(--accent)'
+        >
+          —
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ohm-tab {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--text-dim);
+    cursor: pointer;
+  }
+
+  .ohm-tab:hover {
+    border-color: var(--text-muted);
+    color: var(--text);
+  }
+
+  .ohm-tab.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+</style>
+
+<script>
+  const modes: Record<
+    string,
+    {
+      formula: string
+      inputA: { label: string; unit: string }
+      inputB: { label: string; unit: string }
+      result: { label: string }
+      calc: (a: number, b: number) => number
+      formatUnit: (val: number) => string
+    }
+  > = {
+    V: {
+      formula: 'V = I × R',
+      inputA: { label: 'Corriente (I)', unit: 'A' },
+      inputB: { label: 'Resistencia (R)', unit: 'Ω' },
+      result: { label: 'Voltaje (V)' },
+      calc: (i, r) => i * r,
+      formatUnit: (v) => formatValue(v, 'V'),
+    },
+    I: {
+      formula: 'I = V ÷ R',
+      inputA: { label: 'Voltaje (V)', unit: 'V' },
+      inputB: { label: 'Resistencia (R)', unit: 'Ω' },
+      result: { label: 'Corriente (I)' },
+      calc: (v, r) => (r !== 0 ? v / r : 0),
+      formatUnit: (v) => formatValue(v, 'A'),
+    },
+    R: {
+      formula: 'R = V ÷ I',
+      inputA: { label: 'Voltaje (V)', unit: 'V' },
+      inputB: { label: 'Corriente (I)', unit: 'A' },
+      result: { label: 'Resistencia (R)' },
+      calc: (v, i) => (i !== 0 ? v / i : 0),
+      formatUnit: (v) => formatValue(v, 'Ω'),
+    },
+  }
+
+  const prefixes = [
+    { threshold: 1e6, suffix: 'M' },
+    { threshold: 1e3, suffix: 'k' },
+    { threshold: 1, suffix: '' },
+    { threshold: 1e-3, suffix: 'm' },
+    { threshold: 1e-6, suffix: 'µ' },
+  ]
+
+  function formatValue(val: number, unit: string): string {
+    if (val === 0) return `0 ${unit}`
+    const abs = Math.abs(val)
+    for (const p of prefixes) {
+      if (abs >= p.threshold) {
+        const scaled = val / p.threshold
+        const display = Number.isInteger(scaled)
+          ? scaled.toString()
+          : scaled.toPrecision(4).replace(/\.?0+$/, '')
+        return `${display} ${p.suffix}${unit}`
+      }
+    }
+    return `${val.toPrecision(4).replace(/\.?0+$/, '')} ${unit}`
+  }
+
+  const inputA = document.getElementById('input-a') as HTMLInputElement
+  const inputB = document.getElementById('input-b') as HTMLInputElement
+  const inputALabel = document.getElementById('input-a-label')!
+  const inputBLabel = document.getElementById('input-b-label')!
+  const inputAUnit = document.getElementById('input-a-unit')!
+  const inputBUnit = document.getElementById('input-b-unit')!
+  const resultLabel = document.getElementById('result-label')!
+  const resultValue = document.getElementById('ohm-result')!
+  const formulaDisplay = document.getElementById('ohm-formula')!
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.ohm-tab')
+
+  let currentMode = 'V'
+
+  function switchMode(mode: string) {
+    currentMode = mode
+    const m = modes[mode]
+
+    tabs.forEach((tab) => {
+      tab.classList.toggle('active', tab.dataset.solve === mode)
+    })
+
+    formulaDisplay.textContent = m.formula
+    inputALabel.textContent = m.inputA.label
+    inputAUnit.textContent = m.inputA.unit
+    inputBLabel.textContent = m.inputB.label
+    inputBUnit.textContent = m.inputB.unit
+    resultLabel.textContent = m.result.label
+
+    inputA.value = ''
+    inputB.value = ''
+    resultValue.textContent = '—'
+  }
+
+  function calculate() {
+    const a = parseFloat(inputA.value)
+    const b = parseFloat(inputB.value)
+    const m = modes[currentMode]
+
+    if (isNaN(a) || isNaN(b)) {
+      resultValue.textContent = '—'
+      return
+    }
+
+    if ((currentMode === 'I' && b === 0) || (currentMode === 'R' && b === 0)) {
+      resultValue.textContent = '∞'
+      return
+    }
+
+    const result = m.calc(a, b)
+    resultValue.textContent = m.formatUnit(result)
+  }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => switchMode(tab.dataset.solve!))
+  })
+
+  inputA.addEventListener('input', calculate)
+  inputB.addEventListener('input', calculate)
+</script>

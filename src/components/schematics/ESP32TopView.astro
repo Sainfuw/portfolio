@@ -1,0 +1,303 @@
+---
+// Rear view = front view mirrored horizontally
+// Front LEFT (GPIO5-21) → Rear RIGHT
+// Front RIGHT (5V,GND,3V3,GPIO4-0) → Rear LEFT
+
+const leftPins = [
+  { col1: '5V', col1Bg: '#e5484d', col1Text: '#fff' },
+  { col1: 'GND', col1Bg: '#1a1a1a', col1Text: '#fff' },
+  { col1: '3V3', col1Bg: '#f76b15', col1Text: '#fff' },
+  {
+    col1: 'GPIO4',
+    col1Bg: '#7cb342',
+    col1Text: '#fff',
+    col2: 'A2',
+    col2Bg: '#f4a4a4',
+    col3: 'D2',
+    col3Bg: '#a8b5c4',
+  },
+  {
+    col1: 'GPIO3',
+    col1Bg: '#7cb342',
+    col1Text: '#fff',
+    col2: 'A1',
+    col2Bg: '#f4a4a4',
+    col3: 'D1',
+    col3Bg: '#a8b5c4',
+  },
+  {
+    col1: 'GPIO2',
+    col1Bg: '#7cb342',
+    col1Text: '#fff',
+    col2: 'A0',
+    col2Bg: '#f4a4a4',
+    col3: 'D0',
+    col3Bg: '#a8b5c4',
+  },
+  {
+    col1: 'GPIO1',
+    col1Bg: '#7cb342',
+    col1Text: '#fff',
+    col2: 'ADC1-1',
+    col2Bg: '#7dd3c7',
+  },
+  {
+    col1: 'GPIO0',
+    col1Bg: '#7cb342',
+    col1Text: '#fff',
+    col2: 'ADC1-0',
+    col2Bg: '#7dd3c7',
+  },
+]
+
+const rightPins = [
+  { gpio: 'GPIO5', func: 'A3', funcBg: '#f4a4a4', digital: 'D3' },
+  { gpio: 'GPIO6', func: 'SDA', funcBg: '#7dd3c7', digital: 'D4' },
+  { gpio: 'GPIO7', func: 'SCL', funcBg: '#7dd3c7', digital: 'D5' },
+  { gpio: 'GPIO8', func: 'SCK', funcBg: '#b39ddb', digital: 'D8' },
+  { gpio: 'GPIO9', func: 'MISO', funcBg: '#b39ddb', digital: 'D9' },
+  { gpio: 'GPIO10', func: 'MOSI', funcBg: '#b39ddb', digital: 'D10' },
+  { gpio: 'GPIO20', func: 'RX', funcBg: '#9ca3af', digital: 'D7' },
+  { gpio: 'GPIO21', func: 'TX', funcBg: '#9ca3af', digital: 'D6' },
+]
+---
+
+<section class='mb-8'>
+  <div class='bg-(--panel) border border-(--border) rounded-xl p-6'>
+    <div
+      class='text-center font-[JetBrains_Mono,monospace] font-bold text-[1.15rem] mb-6'
+    >
+      ESP32-C3 Super Mini — Vista posterior
+    </div>
+
+    <div class='pinout grid grid-cols-[1fr_auto_1fr] gap-4 items-center'>
+      <!-- Left pins (front's right side, mirrored — pin closest to board) -->
+      <div class='flex flex-col gap-1'>
+        {
+          leftPins.map((pin) => (
+            <div class='grid grid-cols-3 gap-0.75 items-center'>
+              {pin.col3 ? (
+                <div
+                  class='pin'
+                  style={`background: ${pin.col3Bg}; color: #1a1a1a`}
+                >
+                  {pin.col3}
+                </div>
+              ) : (
+                <div class='pin empty' />
+              )}
+              {pin.col2 ? (
+                <div
+                  class='pin'
+                  style={`background: ${pin.col2Bg}; color: #1a1a1a`}
+                >
+                  {pin.col2}
+                </div>
+              ) : (
+                <div class='pin empty' />
+              )}
+              <div
+                class='pin'
+                style={`background: ${pin.col1Bg}; color: ${pin.col1Text}`}
+              >
+                {pin.col1}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Board illustration (rear) -->
+      <div class='bg-[#0a0d12] rounded-lg p-2 min-w-25 max-w-35'>
+        <svg
+          viewBox='0 0 100 200'
+          xmlns='http://www.w3.org/2000/svg'
+          class='w-full h-auto block'
+        >
+          <!-- PCB -->
+          <rect
+            x='10'
+            y='10'
+            width='80'
+            height='180'
+            rx='4'
+            fill='#2c3e50'
+            stroke='#1a252f'
+            stroke-width='1'></rect>
+          <!-- USB-C top -->
+          <rect
+            x='35'
+            y='2'
+            width='30'
+            height='14'
+            rx='3'
+            fill='#7f8c8d'
+            stroke='#5a6268'
+            stroke-width='0.5'></rect>
+          <!-- Left pin holes (front's right: 5V, G, 3.3, 4, 3, 2, 1, 0) -->
+          <g fill='#d4a74a' font-family='monospace' font-size='5'>
+            <circle cx='14' cy='25' r='2'></circle><text
+              x='22'
+              y='27'
+              fill='#8b949e'>5V</text
+            >
+            <circle cx='14' cy='40' r='2'></circle><text
+              x='22'
+              y='42'
+              fill='#8b949e'>G</text
+            >
+            <circle cx='14' cy='55' r='2'></circle><text
+              x='22'
+              y='57'
+              fill='#8b949e'>3.3</text
+            >
+            <circle cx='14' cy='70' r='2'></circle><text
+              x='22'
+              y='72'
+              fill='#8b949e'>4</text
+            >
+            <circle cx='14' cy='85' r='2'></circle><text
+              x='22'
+              y='87'
+              fill='#8b949e'>3</text
+            >
+            <circle cx='14' cy='100' r='2'></circle><text
+              x='22'
+              y='102'
+              fill='#8b949e'>2</text
+            >
+            <circle cx='14' cy='115' r='2'></circle><text
+              x='22'
+              y='117'
+              fill='#8b949e'>1</text
+            >
+            <circle cx='14' cy='130' r='2'></circle><text
+              x='22'
+              y='132'
+              fill='#8b949e'>0</text
+            >
+          </g>
+          <!-- Right pin holes (front's left: 5, 6, 7, 8, 9, 10, 20, 21) -->
+          <g fill='#d4a74a' font-family='monospace' font-size='5'>
+            <circle cx='86' cy='25' r='2'></circle><text
+              x='78'
+              y='27'
+              fill='#8b949e'
+              text-anchor='end'>5</text
+            >
+            <circle cx='86' cy='40' r='2'></circle><text
+              x='78'
+              y='42'
+              fill='#8b949e'
+              text-anchor='end'>6</text
+            >
+            <circle cx='86' cy='55' r='2'></circle><text
+              x='78'
+              y='57'
+              fill='#8b949e'
+              text-anchor='end'>7</text
+            >
+            <circle cx='86' cy='70' r='2'></circle><text
+              x='78'
+              y='72'
+              fill='#8b949e'
+              text-anchor='end'>8</text
+            >
+            <circle cx='86' cy='85' r='2'></circle><text
+              x='78'
+              y='87'
+              fill='#8b949e'
+              text-anchor='end'>9</text
+            >
+            <circle cx='86' cy='100' r='2'></circle><text
+              x='78'
+              y='102'
+              fill='#8b949e'
+              text-anchor='end'>10</text
+            >
+            <circle cx='86' cy='115' r='2'></circle><text
+              x='78'
+              y='117'
+              fill='#8b949e'
+              text-anchor='end'>20</text
+            >
+            <circle cx='86' cy='130' r='2'></circle><text
+              x='78'
+              y='132'
+              fill='#8b949e'
+              text-anchor='end'>21</text
+            >
+          </g>
+          <!-- Antenna trace (visible on back) -->
+          <rect
+            x='35'
+            y='135'
+            width='30'
+            height='20'
+            fill='#d4a74a'
+            opacity='0.3'></rect>
+          <path
+            d='M 38 138 L 62 138 L 62 152 L 38 152 Z'
+            fill='none'
+            stroke='#d4a74a'
+            stroke-width='0.5'></path>
+          <!-- Back label -->
+          <text
+            x='50'
+            y='90'
+            text-anchor='middle'
+            fill='#8b949e'
+            font-family='monospace'
+            font-size='7'
+            opacity='0.5'>REAR</text
+          >
+          <!-- Bottom labels -->
+          <text
+            x='22'
+            y='175'
+            fill='#8b949e'
+            font-size='6'
+            font-family='monospace'>0</text
+          >
+          <text
+            x='50'
+            y='175'
+            text-anchor='middle'
+            fill='#8b949e'
+            font-size='6'
+            font-family='monospace'>C3</text
+          >
+          <text
+            x='78'
+            y='175'
+            fill='#8b949e'
+            font-size='6'
+            font-family='monospace'>21</text
+          >
+        </svg>
+      </div>
+
+      <!-- Right pins (front's left side, mirrored) -->
+      <div class='flex flex-col gap-1'>
+        {
+          rightPins.map((pin) => (
+            <div class='grid grid-cols-3 gap-0.75 items-center'>
+              <div class='pin' style='background: #a8b5c4; color: #1a1a1a'>
+                {pin.digital}
+              </div>
+              <div
+                class='pin'
+                style={`background: ${pin.funcBg}; color: #1a1a1a`}
+              >
+                {pin.func}
+              </div>
+              <div class='pin' style='background: #7cb342'>
+                {pin.gpio}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

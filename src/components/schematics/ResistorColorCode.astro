@@ -1,0 +1,334 @@
+---
+const digits = [
+  { value: 0, bg: '#212121', text: '#fff', border: '' },
+  { value: 1, bg: '#6d4c41', text: '#fff', border: '' },
+  { value: 2, bg: '#e53935', text: '#fff', border: '' },
+  { value: 3, bg: '#f57c00', text: '#fff', border: '' },
+  { value: 4, bg: '#fdd835', text: '#222', border: '' },
+  { value: 5, bg: '#43a047', text: '#fff', border: '' },
+  { value: 6, bg: '#1e88e5', text: '#fff', border: '' },
+  { value: 7, bg: '#8e24aa', text: '#fff', border: '' },
+  { value: 8, bg: '#9e9e9e', text: '#fff', border: '' },
+  { value: 9, bg: '#e0e0e0', text: '#222', border: '1px solid #ccc' },
+]
+
+const multipliers = [
+  { label: '×1', mult: 1, bg: '#212121', text: '#fff', border: '' },
+  { label: '×10', mult: 10, bg: '#6d4c41', text: '#fff', border: '' },
+  { label: '×100', mult: 100, bg: '#e53935', text: '#fff', border: '' },
+  { label: '×1k', mult: 1000, bg: '#f57c00', text: '#222', border: '' },
+  { label: '×10k', mult: 10000, bg: '#fdd835', text: '#fff', border: '' },
+  { label: '×100k', mult: 100000, bg: '#43a047', text: '#fff', border: '' },
+  { label: '×1M', mult: 1000000, bg: '#1e88e5', text: '#fff', border: '' },
+  { label: '×0.1', mult: 0.1, bg: '#c0ca33', text: '#222', border: '' },
+  {
+    label: '×0.01',
+    mult: 0.01,
+    bg: '#e0e0e0',
+    text: '#222',
+    border: '1px solid #ccc',
+  },
+]
+
+const tolerances = [
+  { label: '±5% Dorado', tol: '±5%', bg: '#c0ca33', text: '#222', border: '' },
+  {
+    label: '±10% Plata',
+    tol: '±10%',
+    bg: '#e0e0e0',
+    text: '#222',
+    border: '1px solid #ccc',
+  },
+  { label: '±1% Café', tol: '±1%', bg: '#6d4c41', text: '#fff', border: '' },
+  { label: '±2% Rojo', tol: '±2%', bg: '#e53935', text: '#fff', border: '' },
+  {
+    label: '±0.5% Verde',
+    tol: '±0.5%',
+    bg: '#43a047',
+    text: '#fff',
+    border: '',
+  },
+  {
+    label: '±0.25% Azul',
+    tol: '±0.25%',
+    bg: '#1e88e5',
+    text: '#fff',
+    border: '',
+  },
+]
+---
+
+<section class='mb-8'>
+  <div class='bg-(--panel) border border-(--border) rounded-xl p-6'>
+    <!-- Resistor diagram -->
+    <svg
+      class='block w-full max-w-150 mx-auto'
+      viewBox='0 0 600 120'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <line x1='0' y1='60' x2='80' y2='60' stroke='#c0c0c0' stroke-width='3'
+      ></line>
+      <line x1='520' y1='60' x2='600' y2='60' stroke='#c0c0c0' stroke-width='3'
+      ></line>
+      <path
+        d='M 80 60 Q 80 35 110 35 L 490 35 Q 520 35 520 60 Q 520 85 490 85 L 110 85 Q 80 85 80 60 Z'
+        fill='#e3c89a'
+        stroke='#a8895f'
+        stroke-width='1.5'></path>
+
+      <!-- Bands (updated dynamically) -->
+      <rect id='band-d1' x='135' y='35' width='14' height='50' fill='#fdd835'
+      ></rect>
+      <rect id='band-d2' x='165' y='35' width='14' height='50' fill='#8e24aa'
+      ></rect>
+      <rect id='band-mult' x='195' y='35' width='14' height='50' fill='#6d4c41'
+      ></rect>
+      <rect id='band-tol' x='450' y='35' width='14' height='50' fill='#c0ca33'
+      ></rect>
+
+      <!-- Resistance value (updated dynamically) -->
+      <text
+        id='resistor-value'
+        x='300'
+        y='68'
+        text-anchor='middle'
+        fill='#1a1a1a'
+        font-family='Manrope, sans-serif'
+        font-weight='700'
+        font-size='22'
+      >
+        470 Ω ±5%
+      </text>
+
+      <!-- Band labels -->
+      <text
+        x='142'
+        y='105'
+        text-anchor='middle'
+        fill='#8b949e'
+        font-family='JetBrains Mono, monospace'
+        font-size='11'>1°</text
+      >
+      <text
+        x='172'
+        y='105'
+        text-anchor='middle'
+        fill='#8b949e'
+        font-family='JetBrains Mono, monospace'
+        font-size='11'>2°</text
+      >
+      <text
+        x='202'
+        y='105'
+        text-anchor='middle'
+        fill='#8b949e'
+        font-family='JetBrains Mono, monospace'
+        font-size='11'>Mult.</text
+      >
+      <text
+        x='457'
+        y='105'
+        text-anchor='middle'
+        fill='#8b949e'
+        font-family='JetBrains Mono, monospace'
+        font-size='11'>Tol.</text
+      >
+    </svg>
+
+    <!-- Color code grid -->
+    <div
+      class='code-table grid grid-cols-[1fr_1px_1fr_1px_1fr_1px_1fr] gap-x-4 gap-y-1 mt-6 text-[0.78rem] items-start'
+    >
+      <!-- Headers -->
+      <div
+        class='text-center text-(--text-dim) font-semibold uppercase tracking-wider text-[0.7rem] py-1.5'
+      >
+        1ª cifra
+      </div>
+      <div></div>
+      <div
+        class='text-center text-(--text-dim) font-semibold uppercase tracking-wider text-[0.7rem] py-1.5'
+      >
+        2ª cifra
+      </div>
+      <div></div>
+      <div
+        class='text-center text-(--text-dim) font-semibold uppercase tracking-wider text-[0.7rem] py-1.5'
+      >
+        Multiplicador
+      </div>
+      <div></div>
+      <div
+        class='text-center text-(--text-dim) font-semibold uppercase tracking-wider text-[0.7rem] py-1.5'
+      >
+        Tolerancia
+      </div>
+
+      <!-- Cells + dividers -->
+      <div class='grid grid-cols-2 gap-1'>
+        {
+          digits.map((d) => (
+            <button
+              class:list={[
+                'code-cell cursor-pointer',
+                { selected: d.value === 4 },
+              ]}
+              data-band='d1'
+              data-value={d.value}
+              data-color={d.bg}
+              style={`background: ${d.bg}; color: ${d.text};${d.border ? ` border: ${d.border}` : ''}`}
+            >
+              {d.value}
+            </button>
+          ))
+        }
+      </div>
+
+      <div class='bg-(--border) rounded-full self-stretch'></div>
+
+      <div class='grid grid-cols-2 gap-1'>
+        {
+          digits.map((d) => (
+            <button
+              class:list={[
+                'code-cell cursor-pointer',
+                { selected: d.value === 7 },
+              ]}
+              data-band='d2'
+              data-value={d.value}
+              data-color={d.bg}
+              style={`background: ${d.bg}; color: ${d.text};${d.border ? ` border: ${d.border}` : ''}`}
+            >
+              {d.value}
+            </button>
+          ))
+        }
+      </div>
+
+      <div class='bg-(--border) rounded-full self-stretch'></div>
+
+      <div class='grid grid-cols-2 gap-1'>
+        {
+          multipliers.map((m) => (
+            <button
+              class:list={[
+                'code-cell cursor-pointer',
+                { selected: m.mult === 10 },
+              ]}
+              data-band='mult'
+              data-value={m.mult}
+              data-color={m.bg}
+              style={`background: ${m.bg}; color: ${m.text};${m.border ? ` border: ${m.border}` : ''}`}
+            >
+              {m.label}
+            </button>
+          ))
+        }
+      </div>
+
+      <div class='bg-(--border) rounded-full self-stretch'></div>
+
+      <div class='grid grid-cols-1 gap-1'>
+        {
+          tolerances.map((t) => (
+            <button
+              class:list={[
+                'code-cell cursor-pointer',
+                { selected: t.tol === '±5%' },
+              ]}
+              data-band='tol'
+              data-value={t.tol}
+              data-color={t.bg}
+              style={`background: ${t.bg}; color: ${t.text};${t.border ? ` border: ${t.border}` : ''}`}
+            >
+              {t.label}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .code-cell {
+    transition:
+      outline-color 0.15s,
+      transform 0.15s;
+    outline: 2px solid transparent;
+    outline-offset: 1px;
+  }
+
+  .code-cell:hover {
+    transform: scale(1.08);
+  }
+
+  .code-cell.selected {
+    outline-color: var(--accent);
+  }
+</style>
+
+<script>
+  const bands = {
+    d1: document.getElementById('band-d1')!,
+    d2: document.getElementById('band-d2')!,
+    mult: document.getElementById('band-mult')!,
+    tol: document.getElementById('band-tol')!,
+  }
+  const valueText = document.getElementById('resistor-value')!
+
+  const state = {
+    d1: { value: 4, color: '#fdd835' },
+    d2: { value: 7, color: '#8e24aa' },
+    mult: { value: 10, color: '#6d4c41' },
+    tol: { value: '±5%', color: '#c0ca33' },
+  }
+
+  function formatResistance(ohms: number, tol: string): string {
+    let formatted: string
+    if (ohms >= 1e6) {
+      const v = ohms / 1e6
+      formatted = `${Number.isInteger(v) ? v : parseFloat(v.toPrecision(3))}M Ω`
+    } else if (ohms >= 1e3) {
+      const v = ohms / 1e3
+      formatted = `${Number.isInteger(v) ? v : parseFloat(v.toPrecision(3))}k Ω`
+    } else {
+      formatted = `${Number.isInteger(ohms) ? ohms : parseFloat(ohms.toPrecision(3))} Ω`
+    }
+    return `${formatted} ${tol}`
+  }
+
+  function update() {
+    for (const [key, el] of Object.entries(bands)) {
+      el.setAttribute('fill', state[key as keyof typeof state].color)
+    }
+    const ohms =
+      (Number(state.d1.value) * 10 + Number(state.d2.value)) *
+      Number(state.mult.value)
+    valueText.textContent = formatResistance(ohms, String(state.tol.value))
+  }
+
+  document
+    .querySelectorAll<HTMLButtonElement>('.code-cell[data-band]')
+    .forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const band = btn.dataset.band as keyof typeof state
+        const color = btn.dataset.color!
+        const value =
+          band === 'tol' ? btn.dataset.value! : Number(btn.dataset.value!)
+
+        state[band] = { value, color } as any
+
+        document
+          .querySelectorAll<HTMLButtonElement>(
+            `.code-cell[data-band="${band}"]`,
+          )
+          .forEach((el) => {
+            el.classList.remove('selected')
+          })
+        btn.classList.add('selected')
+
+        update()
+      })
+    })
+</script>

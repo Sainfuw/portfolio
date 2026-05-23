@@ -1,0 +1,278 @@
+---
+const components = [
+  {
+    name: 'Resistencia',
+    desc: 'Limita corriente',
+    svg: 'resistor',
+    detail:
+      'Limita el flujo de corriente en un circuito. Se usa para proteger componentes sensibles (como LEDs), dividir voltaje y ajustar niveles de señal. Su valor se mide en ohms (Ω) y se identifica por las bandas de color impresas en su cuerpo.',
+  },
+  {
+    name: 'Capacitor',
+    desc: 'Almacena energía',
+    svg: 'capacitor',
+    detail:
+      'Almacena y libera energía eléctrica. Funciona como una batería pequeña que se carga y descarga rápidamente. Se usa para filtrar ruido, estabilizar voltaje y en circuitos de temporización. Su capacidad se mide en faradios (F).',
+  },
+  {
+    name: 'LED',
+    desc: 'Emite luz',
+    svg: 'led',
+    detail:
+      'Diodo emisor de luz — convierte energía eléctrica en luz cuando la corriente fluye en la dirección correcta. Siempre necesita una resistencia en serie para no quemarse. La pata larga es el ánodo (+) y la corta el cátodo (−).',
+  },
+  {
+    name: 'Batería',
+    desc: 'Fuente de voltaje',
+    svg: 'battery',
+    detail:
+      'Fuente de energía portátil que convierte energía química en eléctrica. Proporciona un voltaje constante (1.5V, 3.7V, 9V, etc.). El terminal largo es positivo (+) y el corto negativo (−). Varias en serie suman su voltaje.',
+  },
+  {
+    name: 'GND / Tierra',
+    desc: 'Referencia 0V',
+    svg: 'gnd',
+    detail:
+      'Punto de referencia de 0 voltios en el circuito. Todos los voltajes se miden respecto a este punto. Es el "camino de regreso" de la corriente — sin conexión a tierra, el circuito no puede cerrarse y no fluye nada.',
+  },
+  {
+    name: 'Transistor NPN',
+    desc: 'Interruptor/amplif.',
+    svg: 'transistor',
+    detail:
+      'Actúa como interruptor electrónico o amplificador controlado por corriente. Una pequeña señal en la base permite controlar una corriente grande entre colector y emisor. Es la base de toda la electrónica digital moderna.',
+  },
+  {
+    name: 'Switch',
+    desc: 'Abre o cierra circuito',
+    svg: 'switch',
+    detail:
+      'Dispositivo mecánico que abre o cierra un circuito. En estado abierto no fluye corriente; al cerrarlo, permite el paso. Los hay de varios tipos: momentáneo (pulsador), de palanca (toggle) y deslizante.',
+  },
+  {
+    name: 'Diodo',
+    desc: 'Solo deja pasar en un sentido',
+    svg: 'diode',
+    detail:
+      'Permite el paso de corriente en una sola dirección, bloqueándola en la otra. Se usa para proteger circuitos contra polaridad inversa y para rectificar corriente alterna (AC) a continua (DC). La banda marca el cátodo (−).',
+  },
+  {
+    name: 'Motor DC',
+    desc: 'Convierte energía en movimiento',
+    svg: 'motor',
+    detail:
+      'Convierte energía eléctrica en movimiento rotativo. La velocidad se controla variando el voltaje o usando PWM. Invertir la polaridad invierte el sentido de giro. Suele acompañarse de un capacitor para filtrar el ruido eléctrico que genera.',
+  },
+]
+---
+
+<section class='mb-8'>
+  <h2
+    class='font-[JetBrains_Mono,monospace] font-bold text-lg tracking-tight text-(--text) mb-4'
+  >
+    Componentes básicos
+  </h2>
+
+  <div class='components-grid grid grid-cols-3 gap-3.5 max-sm:grid-cols-2'>
+    {
+      components.map((comp, i) => (
+        <button
+          class='comp-card bg-(--panel) border border-(--border) rounded-xl px-3 pt-5 pb-4 text-center transition-all duration-200 w-full cursor-pointer'
+          data-index={i}
+        >
+          <svg
+            viewBox='0 0 120 60'
+            stroke='white'
+            stroke-width='2'
+            fill='none'
+            stroke-linecap='round'
+            stroke-linejoin='round'
+            class='w-full max-w-30 h-15 mb-3 mx-auto'
+          >
+            {comp.svg === 'resistor' && (
+              <>
+                <line x1='5' y1='30' x2='25' y2='30' />
+                <polyline points='25,30 32,18 46,42 60,18 74,42 88,18 95,30' />
+                <line x1='95' y1='30' x2='115' y2='30' />
+              </>
+            )}
+            {comp.svg === 'capacitor' && (
+              <>
+                <line x1='5' y1='30' x2='50' y2='30' />
+                <line x1='50' y1='12' x2='50' y2='48' />
+                <line x1='70' y1='12' x2='70' y2='48' />
+                <line x1='70' y1='30' x2='115' y2='30' />
+              </>
+            )}
+            {comp.svg === 'led' && (
+              <>
+                <line x1='5' y1='30' x2='40' y2='30' />
+                <polygon points='40,15 40,45 65,30' fill='none' />
+                <line x1='65' y1='15' x2='65' y2='45' />
+                <line x1='65' y1='30' x2='115' y2='30' />
+                <line x1='75' y1='20' x2='88' y2='7' stroke='#ffcc18' />
+                <polyline points='83,7 88,7 88,12' stroke='#ffcc18' />
+                <line x1='85' y1='22' x2='98' y2='9' stroke='#ffcc18' />
+                <polyline points='93,9 98,9 98,14' stroke='#ffcc18' />
+              </>
+            )}
+            {comp.svg === 'battery' && (
+              <>
+                <line x1='5' y1='30' x2='45' y2='30' />
+                <line x1='45' y1='15' x2='45' y2='45' />
+                <line x1='52' y1='22' x2='52' y2='38' />
+                <line x1='59' y1='15' x2='59' y2='45' />
+                <line x1='66' y1='22' x2='66' y2='38' />
+                <line x1='66' y1='30' x2='115' y2='30' />
+                <text
+                  x='78'
+                  y='20'
+                  fill='white'
+                  stroke='none'
+                  font-size='14'
+                  font-family='monospace'
+                >
+                  +
+                </text>
+              </>
+            )}
+            {comp.svg === 'gnd' && (
+              <>
+                <line x1='60' y1='5' x2='60' y2='28' />
+                <line x1='40' y1='28' x2='80' y2='28' />
+                <line x1='46' y1='36' x2='74' y2='36' />
+                <line x1='52' y1='44' x2='68' y2='44' />
+                <line x1='57' y1='52' x2='63' y2='52' />
+              </>
+            )}
+            {comp.svg === 'transistor' && (
+              <>
+                <line x1='20' y1='30' x2='50' y2='30' />
+                <line x1='50' y1='15' x2='50' y2='45' />
+                <line x1='50' y1='30' x2='80' y2='50' />
+                <polygon
+                  points='80,50 72,48 76,42'
+                  fill='white'
+                  stroke='white'
+                />
+                <line x1='80' y1='50' x2='80' y2='58' />
+                <line x1='50' y1='30' x2='80' y2='10' />
+                <line x1='80' y1='10' x2='80' y2='2' />
+              </>
+            )}
+            {comp.svg === 'switch' && (
+              <>
+                <line x1='5' y1='40' x2='35' y2='40' />
+                <circle cx='38' cy='40' r='3' fill='white' />
+                <line x1='38' y1='40' x2='78' y2='18' />
+                <circle cx='82' cy='40' r='3' fill='white' />
+                <line x1='85' y1='40' x2='115' y2='40' />
+              </>
+            )}
+            {comp.svg === 'diode' && (
+              <>
+                <line x1='5' y1='30' x2='45' y2='30' />
+                <polygon points='45,15 45,45 70,30' fill='none' />
+                <line x1='70' y1='15' x2='70' y2='45' />
+                <line x1='70' y1='30' x2='115' y2='30' />
+              </>
+            )}
+            {comp.svg === 'motor' && (
+              <>
+                <line x1='5' y1='30' x2='40' y2='30' />
+                <circle cx='60' cy='30' r='20' />
+                <text
+                  x='60'
+                  y='35'
+                  text-anchor='middle'
+                  fill='white'
+                  stroke='none'
+                  font-size='14'
+                  font-family='monospace'
+                  font-weight='600'
+                >
+                  M
+                </text>
+                <line x1='80' y1='30' x2='115' y2='30' />
+              </>
+            )}
+          </svg>
+          <div class='font-bold text-base mb-0.5'>{comp.name}</div>
+          <div class='text-(--text-dim) text-[0.8rem]'>{comp.desc}</div>
+        </button>
+      ))
+    }
+  </div>
+
+  <!-- Detail panel (full width, below grid) -->
+  <div
+    id='comp-detail'
+    class='grid transition-all duration-300 ease-in-out'
+    style='grid-template-rows: 0fr;'
+  >
+    <div class='overflow-hidden'>
+      <div
+        class='mt-3 bg-(--panel-2) border border-(--border) rounded-lg p-5 border-l-2 border-l-(--accent)'
+      >
+        <div
+          id='comp-detail-name'
+          class='font-[JetBrains_Mono,monospace] font-bold text-sm text-(--accent) mb-1.5'
+        >
+        </div>
+        <p
+          id='comp-detail-text'
+          class='text-[0.88rem] text-(--text-dim) leading-relaxed'
+        >
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .comp-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .comp-card.active {
+    border-color: var(--accent);
+    background: var(--panel-2);
+  }
+</style>
+
+<script define:vars={{ components }}>
+  window.__compData = components
+</script>
+
+<script>
+  const data = (window as any).__compData as { name: string; detail: string }[]
+  const panel = document.getElementById('comp-detail')!
+  const nameEl = document.getElementById('comp-detail-name')!
+  const textEl = document.getElementById('comp-detail-text')!
+
+  let activeIndex: number | null = null
+
+  document.querySelectorAll<HTMLButtonElement>('.comp-card').forEach((card) => {
+    card.addEventListener('click', () => {
+      const index = Number(card.dataset.index)
+      const wasActive = index === activeIndex
+
+      document
+        .querySelectorAll('.comp-card')
+        .forEach((c) => c.classList.remove('active'))
+
+      if (wasActive) {
+        panel.style.gridTemplateRows = '0fr'
+        activeIndex = null
+        return
+      }
+
+      card.classList.add('active')
+      nameEl.textContent = data[index].name
+      textEl.textContent = data[index].detail
+      panel.style.gridTemplateRows = '1fr'
+      activeIndex = index
+    })
+  })
+</script>

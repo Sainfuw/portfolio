@@ -1,0 +1,25 @@
+---
+import ColorConventions from '../components/schematics/ColorConventions.astro'
+import ComponentsGrid from '../components/schematics/ComponentsGrid.astro'
+import ConnectionVsCross from '../components/schematics/ConnectionVsCross.astro'
+import ESP32Pinout from '../components/schematics/ESP32Pinout.astro'
+import ESP32TopView from '../components/schematics/ESP32TopView.astro'
+import OhmsLaw from '../components/schematics/OhmsLaw.astro'
+import ResistorColorCode from '../components/schematics/ResistorColorCode.astro'
+import SchematicsHeader from '../components/schematics/SchematicsHeader.astro'
+import SchematicsLayout from '../layouts/SchematicsLayout.astro'
+---
+
+<SchematicsLayout title='Electrónica básica — Cheat sheet'>
+  <SchematicsHeader
+    title='Electrónica básica'
+    subtitle='Convenciones de color · Ley de Ohm · Componentes · Pinout ESP32-C3'
+  />
+  <ColorConventions />
+  <OhmsLaw />
+  <ComponentsGrid />
+  <ConnectionVsCross />
+  <ResistorColorCode />
+  <ESP32Pinout />
+  <ESP32TopView />
+</SchematicsLayout>

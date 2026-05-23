@@ -1,0 +1,81 @@
+@import 'tailwindcss';
+
+:root {
+  --bg: #0e1116;
+  --panel: #161b22;
+  --panel-2: #1c232c;
+  --border: #2a323d;
+  --text: #e6edf3;
+  --text-dim: #8b949e;
+  --text-muted: #6e7681;
+  --accent: #58a6ff;
+
+  --c-red: #e5484d;
+  --c-black: #2a2a2a;
+  --c-orange: #f76b15;
+  --c-yellow: #ffcc18;
+  --c-green: #30a46c;
+  --c-blue: #3b82f6;
+  --c-white: #f5f5f5;
+  --c-brown: #8b5a3c;
+  --c-violet: #8b5cf6;
+  --c-gray: #9ca3af;
+  --c-gold: #d4a74a;
+  --c-silver: #c0c0c0;
+}
+
+.component:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.code-cell {
+  padding: 6px 8px;
+  border-radius: 4px;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  color: #fff;
+  min-height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pin {
+  padding: 5px 6px;
+  border-radius: 4px;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fff;
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pin.empty {
+  background: transparent;
+}
+
+@media (max-width: 640px) {
+  .components-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .code-table {
+    font-size: 0.68rem;
+  }
+
+  .pinout,
+  .pinout-supermini {
+    grid-template-columns: 1fr !important;
+  }
+
+  .pin {
+    font-size: 0.65rem;
+    padding: 4px;
+  }
+}

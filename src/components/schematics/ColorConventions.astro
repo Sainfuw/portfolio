@@ -1,0 +1,128 @@
+---
+const colors = [
+  {
+    name: 'Rojo',
+    swatch: 'var(--c-red)',
+    borderClass: 'border-white/10',
+    use: 'Voltaje positivo principal',
+    detail: 'VCC, 5V, 3.3V, + de batería',
+    example: 'Pin 5V → resistencia',
+  },
+  {
+    name: 'Negro',
+    swatch: 'var(--c-black)',
+    borderClass: 'border-white/30',
+    use: 'GND / tierra / negativo',
+    detail: 'Retorno de corriente, 0V',
+    example: 'LED → GND del Arduino',
+  },
+  {
+    name: 'Naranja',
+    swatch: 'var(--c-orange)',
+    borderClass: 'border-white/10',
+    use: 'Voltaje secundario / 3.3V',
+    detail: 'Segunda fuente, lógica 3.3V',
+    example: 'Pin 3.3V del Arduino',
+  },
+  {
+    name: 'Amarillo',
+    swatch: 'var(--c-yellow)',
+    borderClass: 'border-white/10',
+    use: 'Señales digitales / datos',
+    detail: 'Pines digitales, salidas PWM',
+    example: 'Pin D13 → componente',
+  },
+  {
+    name: 'Verde',
+    swatch: 'var(--c-green)',
+    borderClass: 'border-white/10',
+    use: 'GND alternativo / tierra 2',
+    detail: 'Segundo GND, tierra de señal',
+    example: 'Aceptable para GND también',
+  },
+  {
+    name: 'Azul',
+    swatch: 'var(--c-blue)',
+    borderClass: 'border-white/10',
+    use: 'Señales analógicas / datos',
+    detail: 'Pines analógicos, I2C, SPI',
+    example: 'Sensor → pin A0',
+  },
+  {
+    name: 'Blanco',
+    swatch: 'var(--c-white)',
+    borderClass: 'border-white/30',
+    use: 'Señal de datos / bus',
+    detail: 'SDA (I2C), MISO, señales',
+    example: 'Comunicación entre chips',
+  },
+]
+---
+
+<section class='mb-8'>
+  <div class='bg-(--panel) border border-(--border) rounded-xl overflow-hidden'>
+    <table class='w-full border-collapse'>
+      <thead>
+        <tr>
+          {
+            ['Color', 'Uso', 'Ejemplo en tu circuito'].map((heading) => (
+              <th class='bg-(--panel-2) text-left p-3.5 px-4.5 text-[0.78rem] uppercase tracking-widest text-(--text-dim) font-semibold border-b border-(--border)'>
+                {heading}
+              </th>
+            ))
+          }
+        </tr>
+      </thead>
+      <tbody>
+        {
+          colors.map((color, i) => {
+            const isLast = i === colors.length - 1
+            const borderCell = isLast ? '' : 'border-b border-[var(--border)]'
+
+            return (
+              <tr>
+                <td
+                  class={`p-3.5 px-4.5 align-top text-[0.92rem] ${borderCell}`}
+                >
+                  <div class='flex items-center gap-3 min-w-35'>
+                    <span
+                      class={`w-7 h-5 rounded shrink-0 border ${color.borderClass}`}
+                      style={`background: ${color.swatch}`}
+                    />
+                    <span class='font-semibold text-(--text)'>
+                      {color.name}
+                    </span>
+                  </div>
+                </td>
+                <td
+                  class={`p-3.5 px-4.5 align-top text-[0.92rem] ${borderCell}`}
+                >
+                  <span class='font-semibold text-(--text) block mb-0.5'>
+                    {color.use}
+                  </span>
+                  <span class='text-(--text-dim) text-[0.85rem]'>
+                    {color.detail}
+                  </span>
+                </td>
+                <td
+                  class={`p-3.5 px-4.5 align-top text-[0.92rem] ${borderCell}`}
+                >
+                  <span class='text-(--text-dim) font-[JetBrains_Mono,monospace] text-[0.85rem]'>
+                    {color.example}
+                  </span>
+                </td>
+              </tr>
+            )
+          })
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div
+    class='bg-(--panel) border border-(--border) rounded-xl px-5.5 py-4.5 mt-4 text-center text-[0.9rem] text-(--text-dim)'
+  >
+    <strong>Regla de oro:</strong> rojo = positivo, negro = GND. El resto es convención
+    — lo importante es ser consistente dentro de tu propio proyecto.
+  </div>
+</section>
