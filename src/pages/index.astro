@@ -1,0 +1,161 @@
+---
+import '../styles/global.css'
+---
+
+<!doctype html>
+<html lang='es' class='bg-[#0e0e0f]'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Emilio Navarro — Desarrollador Web</title>
+    <link rel='preconnect' href='https://fonts.googleapis.com' />
+    <link
+      href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap'
+      rel='stylesheet'
+    />
+    <link
+      rel='stylesheet'
+      href='https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css'
+    />
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      .gradient-text {
+        background: linear-gradient(135deg, #5dcaa5, #378add, #7f77dd);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .dot {
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+    </style>
+  </head>
+  <body class='min-h-screen text-[#e8e6e1]'>
+    <div class='max-w-2xl mx-auto px-6 py-12'>
+      <!-- Hero -->
+      <section class='pt-16 pb-12'>
+        <span
+          class='text-xs tracking-widest uppercase font-medium text-[#5dcaa5] block mb-4'
+        >
+          available for work
+        </span>
+        <h1 class='text-5xl font-semibold leading-tight mb-4 text-[#f1efe8]'>
+          Emilio José<br />
+          Navarro <span class='gradient-text'>Monreal</span>
+        </h1>
+        <p class='text-[#888780] text-lg leading-relaxed max-w-lg mb-8'>
+          Desarrollador web fullstack con experiencia en tecnologías modernas de
+          frontend y backend. Construyo aplicaciones web rápidas, escalables y
+          con buena experiencia de usuario.
+        </p>
+        <div class='flex flex-wrap gap-3'>
+          <a
+            href='https://github.com/Sainfuw'
+            target='_blank'
+            class='inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-[#444441] text-[#b4b2a9] hover:border-[#5dcaa5] hover:text-[#5dcaa5] transition-all'
+          >
+            <i class='ti ti-brand-github text-base'></i> GitHub
+          </a>
+          <a
+            href='https://www.linkedin.com/in/sainfuw/'
+            target='_blank'
+            class='inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-[#444441] text-[#b4b2a9] hover:border-[#5dcaa5] hover:text-[#5dcaa5] transition-all'
+          >
+            <i class='ti ti-brand-linkedin text-base'></i> LinkedIn
+          </a>
+          <a
+            href='mailto:emilio@navarrom.org'
+            class='inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-[#444441] text-[#b4b2a9] hover:border-[#5dcaa5] hover:text-[#5dcaa5] transition-all'
+          >
+            <i class='ti ti-mail text-base'></i> emilio@navarrom.org
+          </a>
+        </div>
+      </section>
+
+      <!-- Divider -->
+      <hr class='border-[#2c2c2a]' />
+
+      <!-- Stack -->
+      <section class='py-12'>
+        <p
+          class='text-[11px] tracking-widest uppercase text-[#5f5e5a] font-medium mb-6'
+        >
+          Stack tecnológico
+        </p>
+        <div class='flex flex-wrap gap-2'>
+          <span
+            class='inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium bg-[#412402] border border-[#854f0b] text-[#fac775]'
+          >
+            <i class='ti ti-brand-javascript'></i>JavaScript
+          </span>
+          <span
+            class='inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium bg-[#042c53] border border-[#185fa5] text-[#85b7eb]'
+          >
+            <i class='ti ti-brand-typescript'></i>TypeScript
+          </span>
+          <span
+            class='inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium bg-[#042c53] border border-[#378add] text-[#b5d4f4]'
+          >
+            <i class='ti ti-brand-react'></i>React
+          </span>
+          <span
+            class='inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium bg-[#2c2c2a] border border-[#5f5e5a] text-[#d3d1c7]'
+          >
+            <i class='ti ti-triangle'></i>Next.js
+          </span>
+          <span
+            class='inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium bg-[#26215c] border border-[#534ab7] text-[#afa9ec]'
+          >
+            <i class='ti ti-rocket'></i>Astro
+          </span>
+          <span
+            class='inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium bg-[#4a1b0c] border border-[#993c1d] text-[#f0997b]'
+          >
+            <i class='ti ti-diamond'></i>Ruby on Rails
+          </span>
+          <span
+            class='inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium bg-[#173404] border border-[#3b6d11] text-[#c0dd97]'
+          >
+            <i class='ti ti-brand-python'></i>Python
+          </span>
+          <span
+            class='inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium bg-[#04342c] border border-[#0f6e56] text-[#5dcaa5]'
+          >
+            <i class='ti ti-database'></i>MySQL
+          </span>
+          <span
+            class='inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium bg-[#042c53] border border-[#0c447c] text-[#85b7eb]'
+          >
+            <i class='ti ti-database'></i>PostgreSQL
+          </span>
+          <span
+            class='inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium bg-[#173404] border border-[#639922] text-[#97c459]'
+          >
+            <i class='ti ti-leaf'></i>MongoDB
+          </span>
+        </div>
+      </section>
+
+      <!-- Divider -->
+      <hr class='border-[#2c2c2a]' />
+
+      <!-- Footer -->
+      <footer class='py-8 text-xs text-[#5f5e5a] flex items-center gap-2'>
+        <span class='dot inline-block w-1.5 h-1.5 rounded-full bg-[#5dcaa5]'
+        ></span>
+        Disponible para proyectos freelance y posiciones full-time · Santiago, Chile
+      </footer>
+    </div>
+  </body>
+</html>
