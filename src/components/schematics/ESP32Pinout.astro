@@ -10,6 +10,10 @@ const leftPins = [
   { gpio: 'GPIO21', func: 'TX', funcBg: '#9ca3af', digital: 'D6' },
 ]
 
+// Labels shown next to each dot on the board illustration
+const leftDotLabels = ['5', '6', '7', '8', '9', '10', '20', '21']
+const rightDotLabels = ['5V', 'G', '3.3', '4', '3', '2', '1', '0']
+
 const rightPins = [
   { col1: '5V', col1Bg: '#e5484d', col1Text: '#fff' },
   { col1: 'GND', col1Bg: '#1a1a1a', col1Text: '#fff' },
@@ -66,152 +70,115 @@ const rightPins = [
       ESP32-C3 Super Mini — Pinout
     </div>
 
-    <div class='pinout grid grid-cols-[1fr_auto_1fr] gap-4 items-center'>
-      <!-- Left pins -->
-      <div class='flex flex-col gap-1'>
-        {
-          leftPins.map((pin) => (
-            <div class='grid grid-cols-3 gap-0.75 items-center'>
-              <div class='pin' style={`background: #7cb342`}>
-                {pin.gpio}
-              </div>
-              <div
-                class='pin'
-                style={`background: ${pin.funcBg}; color: #1a1a1a`}
-              >
-                {pin.func}
-              </div>
-              <div class='pin' style={`background: #a8b5c4; color: #1a1a1a`}>
-                {pin.digital}
-              </div>
-            </div>
-          ))
-        }
-      </div>
-
-      <!-- Board illustration -->
-      <div class='bg-[#0a0d12] rounded-lg p-2 min-w-25 max-w-35'>
+    <div
+      class='pinout grid grid-cols-[1fr_auto_1fr] gap-x-4 gap-y-1 items-center'
+      style='grid-template-rows: repeat(8, auto);'
+    >
+      <!-- Board background spanning all rows in center column -->
+      <div
+        class='board-bg bg-[#0a0d12] rounded-lg overflow-hidden min-w-25 max-w-35'
+        style='grid-column: 2; grid-row: 1 / -1; align-self: stretch;'
+      >
         <svg
-          viewBox='0 0 100 200'
+          viewBox='0 0 100 236'
           xmlns='http://www.w3.org/2000/svg'
-          class='w-full h-auto block'
+          class='w-full h-full'
+          preserveAspectRatio='none'
         >
+          <!-- PCB -->
           <rect
-            x='10'
-            y='10'
-            width='80'
-            height='180'
+            x='8'
+            y='8'
+            width='84'
+            height='220'
             rx='4'
             fill='#2c3e50'
             stroke='#1a252f'
             stroke-width='1'></rect>
+          <!-- USB-C -->
           <rect
-            x='35'
+            x='32'
             y='2'
-            width='30'
+            width='36'
             height='14'
             rx='3'
             fill='#7f8c8d'
             stroke='#5a6268'
             stroke-width='0.5'></rect>
-          <g fill='#d4a74a'>
-            <circle cx='14' cy='25' r='2'></circle><circle cx='14' cy='40' r='2'
-            ></circle><circle cx='14' cy='55' r='2'></circle><circle
-              cx='14'
-              cy='70'
-              r='2'></circle>
-            <circle cx='14' cy='85' r='2'></circle><circle
-              cx='14'
-              cy='100'
-              r='2'></circle><circle cx='14' cy='115' r='2'></circle><circle
-              cx='14'
-              cy='130'
-              r='2'></circle>
-          </g>
-          <g fill='#d4a74a'>
-            <circle cx='86' cy='25' r='2'></circle><circle cx='86' cy='40' r='2'
-            ></circle><circle cx='86' cy='55' r='2'></circle><circle
-              cx='86'
-              cy='70'
-              r='2'></circle>
-            <circle cx='86' cy='85' r='2'></circle><circle
-              cx='86'
-              cy='100'
-              r='2'></circle><circle cx='86' cy='115' r='2'></circle><circle
-              cx='86'
-              cy='130'
-              r='2'></circle>
-          </g>
+          <!-- Buttons -->
           <rect
-            x='28'
-            y='48'
-            width='12'
-            height='12'
+            x='22'
+            y='55'
+            width='14'
+            height='14'
             rx='1'
             fill='#1a1a1a'
             stroke='#444'></rect>
           <rect
-            x='60'
-            y='48'
-            width='12'
-            height='12'
+            x='64'
+            y='55'
+            width='14'
+            height='14'
             rx='1'
             fill='#1a1a1a'
             stroke='#444'></rect>
           <text
-            x='34'
-            y='72'
+            x='29'
+            y='80'
             text-anchor='middle'
             fill='#8b949e'
             font-size='5'
             font-family='monospace'>BOOT</text
           >
           <text
-            x='66'
-            y='72'
+            x='71'
+            y='80'
             text-anchor='middle'
             fill='#8b949e'
             font-size='5'
             font-family='monospace'>RST</text
           >
+          <!-- Chip -->
           <rect
-            x='30'
-            y='90'
-            width='40'
-            height='40'
+            x='26'
+            y='108'
+            width='48'
+            height='44'
             rx='2'
             fill='#1a1a1a'
             stroke='#444'></rect>
+          <!-- Antenna -->
           <rect
-            x='35'
-            y='135'
-            width='30'
-            height='20'
+            x='32'
+            y='165'
+            width='36'
+            height='24'
             fill='#d4a74a'
             opacity='0.3'></rect>
           <path
-            d='M 38 138 L 62 138 L 62 152 L 38 152 Z'
+            d='M 35 168 L 65 168 L 65 186 L 35 186 Z'
             fill='none'
             stroke='#d4a74a'
             stroke-width='0.5'></path>
+          <!-- Bottom labels -->
           <text
-            x='22'
-            y='175'
+            x='18'
+            y='228'
             fill='#8b949e'
             font-size='6'
             font-family='monospace'>21</text
           >
           <text
             x='50'
-            y='175'
+            y='228'
             text-anchor='middle'
             fill='#8b949e'
             font-size='6'
             font-family='monospace'>C3</text
           >
           <text
-            x='78'
-            y='175'
+            x='82'
+            y='228'
             fill='#8b949e'
             font-size='6'
             font-family='monospace'>0</text
@@ -219,38 +186,83 @@ const rightPins = [
         </svg>
       </div>
 
-      <!-- Right pins -->
-      <div class='flex flex-col gap-1'>
-        {
-          rightPins.map((pin) => (
-            <div class='grid grid-cols-3 gap-0.75 items-center'>
+      <!-- Rows: left pin | dot pair | right pin (all in the same grid row) -->
+      {
+        leftPins.map((lpin, i) => {
+          const rpin = rightPins[i]
+          return (
+            <>
+              {/* Left pin */}
               <div
-                class='pin'
-                style={`background: ${pin.col1Bg}; color: ${pin.col1Text || '#fff'}`}
+                class='grid grid-cols-3 gap-0.75 items-center'
+                style={`grid-column: 1; grid-row: ${i + 1};`}
               >
-                {pin.col1}
-              </div>
-              {pin.col2 ? (
+                <div class='pin' style='background: #7cb342'>
+                  {lpin.gpio}
+                </div>
                 <div
                   class='pin'
-                  style={`background: ${pin.col2Bg}; color: #1a1a1a`}
+                  style={`background: ${lpin.funcBg}; color: #1a1a1a`}
                 >
-                  {pin.col2}
+                  {lpin.func}
                 </div>
-              ) : (
-                <div class='pin empty' />
-              )}
-              {pin.col3 ? (
-                <div class='pin' style={`background: ${pin.col3Bg}`}>
-                  {pin.col3}
+                <div class='pin' style='background: #a8b5c4; color: #1a1a1a'>
+                  {lpin.digital}
                 </div>
-              ) : (
-                <div class='pin empty' />
-              )}
-            </div>
-          ))
-        }
-      </div>
+              </div>
+
+              {/* Dot pair with labels (on top of board background) */}
+              <div
+                class='dot-pair flex justify-between items-center px-0.5'
+                style={`grid-column: 2; grid-row: ${i + 1}; z-index: 1;`}
+              >
+                <div class='flex items-center gap-0.5'>
+                  <div class='w-[5px] h-[5px] rounded-full bg-[#d4a74a] shrink-0' />
+                  <span class='text-[10px] text-[#8b949e] font-[monospace] leading-none select-none'>
+                    {leftDotLabels[i]}
+                  </span>
+                </div>
+                <div class='flex items-center gap-0.5'>
+                  <span class='text-[10px] text-[#8b949e] font-[monospace] leading-none select-none'>
+                    {rightDotLabels[i]}
+                  </span>
+                  <div class='w-[5px] h-[5px] rounded-full bg-[#d4a74a] shrink-0' />
+                </div>
+              </div>
+
+              {/* Right pin */}
+              <div
+                class='grid grid-cols-3 gap-0.75 items-center'
+                style={`grid-column: 3; grid-row: ${i + 1};`}
+              >
+                <div
+                  class='pin'
+                  style={`background: ${rpin.col1Bg}; color: ${rpin.col1Text || '#fff'}`}
+                >
+                  {rpin.col1}
+                </div>
+                {rpin.col2 ? (
+                  <div
+                    class='pin'
+                    style={`background: ${rpin.col2Bg}; color: #1a1a1a`}
+                  >
+                    {rpin.col2}
+                  </div>
+                ) : (
+                  <div class='pin empty' />
+                )}
+                {rpin.col3 ? (
+                  <div class='pin' style={`background: ${rpin.col3Bg}`}>
+                    {rpin.col3}
+                  </div>
+                ) : (
+                  <div class='pin empty' />
+                )}
+              </div>
+            </>
+          )
+        })
+      }
     </div>
   </div>
 </section>
