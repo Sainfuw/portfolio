@@ -72,6 +72,17 @@
   .pinout,
   .pinout-supermini {
     grid-template-columns: 1fr !important;
+    grid-template-rows: auto !important;
+  }
+
+  .pinout > * {
+    grid-column: auto !important;
+    grid-row: auto !important;
+  }
+
+  .pinout > .board-bg,
+  .pinout > .dot-pair {
+    display: none;
   }
 
   .pin {
