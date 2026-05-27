@@ -17,46 +17,16 @@
     <p class='text-[0.92rem] text-(--text-dim) mb-2'>
       Donde <strong>V</strong> es voltios, <strong>I</strong> es amperios (o miliamperios,
       mA) y <strong>R</strong> es ohms. El truco del triángulo: tapas la que quieres
-      calcular y te queda la operación:
+      calcular y te queda la operación.
     </p>
 
     <!-- Calculator -->
     <div class='mt-5 bg-(--panel-2) border border-(--border) rounded-lg p-5'>
-      <!-- Mode tabs -->
-      <div class='flex gap-2 mb-5'>
-        <button
-          data-solve='V'
-          class='ohm-tab active flex-1 py-2 px-3 rounded-md text-sm font-semibold font-[JetBrains_Mono,monospace] transition-all border'
-        >
-          Tapas V
-        </button>
-        <button
-          data-solve='I'
-          class='ohm-tab flex-1 py-2 px-3 rounded-md text-sm font-semibold font-[JetBrains_Mono,monospace] transition-all border'
-        >
-          Tapas I
-        </button>
-        <button
-          data-solve='R'
-          class='ohm-tab flex-1 py-2 px-3 rounded-md text-sm font-semibold font-[JetBrains_Mono,monospace] transition-all border'
-        >
-          Tapas R
-        </button>
-      </div>
-
-      <!-- Formula display -->
-      <div
-        id='ohm-formula'
-        class='text-center font-[JetBrains_Mono,monospace] text-[0.85rem] text-(--text-dim) mb-4'
-      >
-        V = I × R
-      </div>
-
       <!-- Inputs -->
       <div class='grid grid-cols-2 gap-4 mb-5'>
-        <div id='input-a-group'>
+        <div>
           <label
-            id='input-a-label'
+            id='label-a'
             class='block text-[0.75rem] uppercase tracking-wider text-(--text-dim) font-semibold mb-1.5'
           >
             Corriente (I)
@@ -70,18 +40,20 @@
               placeholder='0'
               class='w-full bg-(--bg) border border-(--border) rounded-l-md px-3 py-2.5 text-(--text) font-[JetBrains_Mono,monospace] text-sm focus:outline-none focus:border-(--accent) transition-colors'
             />
-            <span
-              id='input-a-unit'
-              class='bg-(--border) text-(--text-dim) px-3 py-2.5 rounded-r-md text-sm font-[JetBrains_Mono,monospace] flex items-center'
+            <select
+              id='unit-a'
+              class='ohm-select bg-(--border) text-(--text) px-2.5 py-2.5 rounded-r-md text-sm font-[JetBrains_Mono,monospace] font-bold cursor-pointer focus:outline-none border border-(--border) border-l-0'
             >
-              A
-            </span>
+              <option value='A'>A</option>
+              <option value='V'>V</option>
+              <option value='Ω'>Ω</option>
+            </select>
           </div>
         </div>
 
-        <div id='input-b-group'>
+        <div>
           <label
-            id='input-b-label'
+            id='label-b'
             class='block text-[0.75rem] uppercase tracking-wider text-(--text-dim) font-semibold mb-1.5'
           >
             Resistencia (R)
@@ -95,12 +67,14 @@
               placeholder='0'
               class='w-full bg-(--bg) border border-(--border) rounded-l-md px-3 py-2.5 text-(--text) font-[JetBrains_Mono,monospace] text-sm focus:outline-none focus:border-(--accent) transition-colors'
             />
-            <span
-              id='input-b-unit'
-              class='bg-(--border) text-(--text-dim) px-3 py-2.5 rounded-r-md text-sm font-[JetBrains_Mono,monospace] flex items-center'
+            <select
+              id='unit-b'
+              class='ohm-select bg-(--border) text-(--text) px-2.5 py-2.5 rounded-r-md text-sm font-[JetBrains_Mono,monospace] font-bold cursor-pointer focus:outline-none border border-(--border) border-l-0'
             >
-              Ω
-            </span>
+              <option value='Ω'>Ω</option>
+              <option value='A'>A</option>
+              <option value='V'>V</option>
+            </select>
           </div>
         </div>
       </div>
@@ -127,22 +101,16 @@
 </section>
 
 <style>
-  .ohm-tab {
-    background: transparent;
-    border-color: var(--border);
-    color: var(--text-dim);
-    cursor: pointer;
+  .ohm-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238b949e'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 22px;
   }
 
-  .ohm-tab:hover {
-    border-color: var(--text-muted);
-    color: var(--text);
-  }
-
-  .ohm-tab.active {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #fff;
+  .ohm-select:hover {
+    background-color: var(--panel-2);
   }
 
   input[type='number']::-webkit-inner-spin-button,
@@ -157,42 +125,13 @@
 </style>
 
 <script>
-  const modes: Record<
-    string,
-    {
-      formula: string
-      inputA: { label: string; unit: string }
-      inputB: { label: string; unit: string }
-      result: { label: string }
-      calc: (a: number, b: number) => number
-      formatUnit: (val: number) => string
-    }
-  > = {
-    V: {
-      formula: 'V = I × R',
-      inputA: { label: 'Corriente (I)', unit: 'A' },
-      inputB: { label: 'Resistencia (R)', unit: 'Ω' },
-      result: { label: 'Voltaje (V)' },
-      calc: (i, r) => i * r,
-      formatUnit: (v) => formatValue(v, 'V'),
-    },
-    I: {
-      formula: 'I = V ÷ R',
-      inputA: { label: 'Voltaje (V)', unit: 'V' },
-      inputB: { label: 'Resistencia (R)', unit: 'Ω' },
-      result: { label: 'Corriente (I)' },
-      calc: (v, r) => (r !== 0 ? v / r : 0),
-      formatUnit: (v) => formatValue(v, 'A'),
-    },
-    R: {
-      formula: 'R = V ÷ I',
-      inputA: { label: 'Voltaje (V)', unit: 'V' },
-      inputB: { label: 'Corriente (I)', unit: 'A' },
-      result: { label: 'Resistencia (R)' },
-      calc: (v, i) => (i !== 0 ? v / i : 0),
-      formatUnit: (v) => formatValue(v, 'Ω'),
-    },
+  const unitLabels: Record<string, string> = {
+    A: 'Corriente (I)',
+    V: 'Voltaje (V)',
+    Ω: 'Resistencia (R)',
   }
+
+  const allUnits = ['A', 'V', 'Ω']
 
   const prefixes = [
     { threshold: 1e6, suffix: 'M' },
@@ -219,60 +158,102 @@
 
   const inputA = document.getElementById('input-a') as HTMLInputElement
   const inputB = document.getElementById('input-b') as HTMLInputElement
-  const inputALabel = document.getElementById('input-a-label')!
-  const inputBLabel = document.getElementById('input-b-label')!
-  const inputAUnit = document.getElementById('input-a-unit')!
-  const inputBUnit = document.getElementById('input-b-unit')!
+  const labelA = document.getElementById('label-a')!
+  const labelB = document.getElementById('label-b')!
+  const unitA = document.getElementById('unit-a') as HTMLSelectElement
+  const unitB = document.getElementById('unit-b') as HTMLSelectElement
   const resultLabel = document.getElementById('result-label')!
   const resultValue = document.getElementById('ohm-result')!
-  const formulaDisplay = document.getElementById('ohm-formula')!
-  const tabs = document.querySelectorAll<HTMLButtonElement>('.ohm-tab')
 
-  let currentMode = 'V'
+  function getMissing(): string {
+    return allUnits.find((u) => u !== unitA.value && u !== unitB.value) || 'V'
+  }
 
-  function switchMode(mode: string) {
-    currentMode = mode
-    const m = modes[mode]
-
-    tabs.forEach((tab) => {
-      tab.classList.toggle('active', tab.dataset.solve === mode)
-    })
-
-    formulaDisplay.textContent = m.formula
-    inputALabel.textContent = m.inputA.label
-    inputAUnit.textContent = m.inputA.unit
-    inputBLabel.textContent = m.inputB.label
-    inputBUnit.textContent = m.inputB.unit
-    resultLabel.textContent = m.result.label
-
-    inputA.value = ''
-    inputB.value = ''
-    resultValue.textContent = '—'
+  function updateLabels() {
+    labelA.textContent = unitLabels[unitA.value]
+    labelB.textContent = unitLabels[unitB.value]
+    resultLabel.textContent = unitLabels[getMissing()]
   }
 
   function calculate() {
     const a = parseFloat(inputA.value)
     const b = parseFloat(inputB.value)
-    const m = modes[currentMode]
 
     if (isNaN(a) || isNaN(b)) {
       resultValue.textContent = '—'
       return
     }
 
-    if ((currentMode === 'I' && b === 0) || (currentMode === 'R' && b === 0)) {
-      resultValue.textContent = '∞'
-      return
+    // Map input values to their physical quantities
+    const known: Record<string, number> = {}
+    known[unitA.value] = a
+    known[unitB.value] = b
+
+    const missing = getMissing()
+    let result: number
+
+    switch (missing) {
+      case 'V':
+        result = known['A'] * known['Ω']
+        break
+      case 'A':
+        result = known['Ω'] !== 0 ? known['V'] / known['Ω'] : 0
+        if (known['Ω'] === 0) {
+          resultValue.textContent = '∞'
+          return
+        }
+        break
+      case 'Ω':
+        result = known['A'] !== 0 ? known['V'] / known['A'] : 0
+        if (known['A'] === 0) {
+          resultValue.textContent = '∞'
+          return
+        }
+        break
+      default:
+        result = 0
     }
 
-    const result = m.calc(a, b)
-    resultValue.textContent = m.formatUnit(result)
+    resultValue.textContent = formatValue(result!, missing === 'A' ? 'A' : missing === 'V' ? 'V' : 'Ω')
   }
 
-  tabs.forEach((tab) => {
-    tab.addEventListener('click', () => switchMode(tab.dataset.solve!))
+  // When a unit select changes, swap if duplicate
+  function onUnitChange(changed: HTMLSelectElement, other: HTMLSelectElement) {
+    if (changed.value === other.value) {
+      // Swap: set the other to whichever unit is now missing
+      other.value = getMissingFromPair(changed.value, changed.value)
+    }
+    updateLabels()
+    calculate()
+  }
+
+  // Find the first unit not equal to both a and b
+  function getMissingFromPair(a: string, b: string): string {
+    return allUnits.find((u) => u !== a) || 'V'
+  }
+
+  unitA.addEventListener('change', () => {
+    if (unitA.value === unitB.value) {
+      // Swap: give B whatever A had before (which is now the missing one)
+      unitB.value = allUnits.find((u) => u !== unitA.value && u !== unitB.value)
+        || allUnits.find((u) => u !== unitA.value)!
+    }
+    updateLabels()
+    calculate()
+  })
+
+  unitB.addEventListener('change', () => {
+    if (unitB.value === unitA.value) {
+      unitA.value = allUnits.find((u) => u !== unitB.value && u !== unitA.value)
+        || allUnits.find((u) => u !== unitB.value)!
+    }
+    updateLabels()
+    calculate()
   })
 
   inputA.addEventListener('input', calculate)
   inputB.addEventListener('input', calculate)
+
+  // Initialize labels
+  updateLabels()
 </script>
